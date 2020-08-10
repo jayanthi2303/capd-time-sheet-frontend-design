@@ -41,7 +41,6 @@ export default class ManagerForm extends React.Component {
       projAssigneList: [],
       configData: [],
       configResponse: [],
-      loadResponseList: [],
       respStatus: []
     }
 
@@ -105,7 +104,7 @@ export default class ManagerForm extends React.Component {
 
 //This function will works based on data entered in row
   onChangeSelect = (data, type, event) => {
-    let isPlannedFieldInValid =  this.onChangePlannedHrs(event.target.value)
+    let isPlannedFieldInValid = (type === 'prj'? "" :this.onChangePlannedHrs(event.target.value));
     if(isPlannedFieldInValid && type === 'P'){
       return false
     }
@@ -205,9 +204,9 @@ onClickPreviousWeek = e => {
   return response.json();
   }).then(loadResponse => {
       console.log("loadResponse : " +loadResponse)
-      this.setState({loadResponseList : loadResponse.data});
+      this.setState({projAssigneList : loadResponse.data});
       let tempTaskList = []
-      this.state.loadResponseList.map(prjInfo => {
+      this.state.projAssigneList.map(prjInfo => {
       tempTaskList.push({
         index: Math.random(),
         planned: prjInfo.Planned_Hours,

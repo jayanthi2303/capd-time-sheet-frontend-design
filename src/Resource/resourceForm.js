@@ -67,17 +67,29 @@ export default class ResourceForm extends React.Component {
       taskList: [...prevState.taskList, { index: Math.random(), projectCode: "", projectName: "", planned: "", actual: "" }],
     }));
   }
-
-  deteteRow = (index) => {
-    // debugger
+  
+  clickOnDelete(record) {
     this.setState({
-      taskList: this.state.taskList.filter((s, sindex) => index !== sindex),
+      taskList: this.state.taskList.filter(r => r !== record)
     });
   }
 
+ changeHandler = (e) => {
+    this.setState({ [e.target.name]: e.target.value })
+
+  };
+
+  onChangeActualHrs = (ePlanHrs) => {
+    console.log("plnHrs : " +ePlanHrs)
+     if(!this.state.regexp.test(ePlanHrs)){
+      alert(" Planned Field Its allows only numbers");
+      return true;
+     }
+    }
+
   onChangeSelect = (data, type, event) => {
     console.log(data, type, event);
-    let isActualFieldInValid =  this.onHandlePlannedChange(event.target.value)
+    let isActualFieldInValid =  (type === 'prj'? "" :this.onChangeActualHrs(event.target.value))
     if(isActualFieldInValid && type === 'A'){
         return false
     }
@@ -105,26 +117,6 @@ export default class ResourceForm extends React.Component {
     console.log("AFter", this.state.taskList[0].projectName)
 
   }
-
-  onHandlePlannedChange = (ePlanHrs) => {
-   console.log("plnHrs : " +ePlanHrs)
-    if(!this.state.regexp.test(ePlanHrs)){
-     alert(" Planned Field Its allows only numbers");
-     return true;
-    }
-   }
-
-  clickOnDelete(record) {
-    this.setState({
-      taskList: this.state.taskList.filter(r => r !== record)
-    });
-  }
-
-
-  changeHandler = (e) => {
-    this.setState({ [e.target.name]: e.target.value })
-
-  };
 
   onChangeSelectWeekId = (e) => {
     debugger
